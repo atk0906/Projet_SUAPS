@@ -34,6 +34,8 @@ def setting_web_attribute(page_title):
     st.markdown(
         f"""
             <style>
+                html {{
+                    zoom: 60%;}}
                 .block-container {{
                     padding-top: 1rem;
                     margin-top: 0rem; 
