@@ -546,8 +546,6 @@ with tab4:
 
     # Vérifier si les colonnes Département et Activité existent
     if "Département" in df.columns and "Activité" in df.columns:
-        col1, col2 = st.columns([1, 2])
-        
         st.markdown(f"""
         <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;'>
             <h3 style='color: {COLORS["primary"]}; margin-top: 0;'>Répartition des Étudiants</h3>
@@ -580,7 +578,8 @@ with tab4:
         st.markdown("</div>", unsafe_allow_html=True)
         
         
-
+        
+        col1, col2 = st.columns([1, 2])
         with col1:
             st.markdown(f"""
             <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;'>
