@@ -145,7 +145,7 @@ def VB_SPACE(lines):
 setting_web_attribute("Analyse du Service des Sports")
 
 # Sidebar avec un design amélioré
-st.sidebar.image("assert/logo-ubs.png", use_column_width=False, width=120)
+st.sidebar.image("assert/logo-ubs.png", use_container_width=False, width=120)
 st.sidebar.title("Tableau de Bord")
 
 
