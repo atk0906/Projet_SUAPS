@@ -8,12 +8,12 @@ from streamlit_extras.app_logo import add_logo
 
 # Định nghĩa theme color palette cho toàn bộ dashboard
 COLORS = {
-    "primary": "#1E88E5",       # Màu chính - xanh dương đậm
-    "secondary": "#26A69A",     # Màu phụ - xanh lá
-    "accent": "#FF8A65",        # Màu nhấn - cam
-    "neutral": "#78909C",       # Màu trung tính - xám xanh
-    "background": "#F5F7FA",    # Màu nền
-    "text": "#37474F",          # Màu chữ chính
+    "primary": "#1E88E5",      
+    "secondary": "#26A69A",    
+    "accent": "#FF8A65",       
+    "neutral": "#78909C",     
+    "background": "#F5F7FA",   
+    "text": "#37474F",          
 }
 
 # Color sequences cho các biểu đồ

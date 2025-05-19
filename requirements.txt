@@ -4,4 +4,4 @@ pandas
 numpy
 matplotlib
 openpyxl  # đọc file Excel
-scipy
+streamlit-extras
