@@ -1,0 +1,23 @@
+[server]
+headless = true
+enableCORS = false
+port = 8501
+enableXsrfProtection = false
+
+[theme]
+base="light"  
+primaryColor="#4E79A7"
+secondaryBackgroundColor="#f4f4f9"
+textColor="#333333"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false
+fullscreen = false
+
+[custom_css]
+css = """
+html {
+    zoom: 67%;  
+}
+"""
