@@ -41,7 +41,7 @@ def setting_web_attribute(page_title):
                     margin-top: 0rem; 
                     padding-bottom: 1rem;
                     padding-left: 3rem;
-                    padding-right: 3rem;
+                    padding-right: 3rem; 
                 }}
                 .metric-container {{
                     font-size: 70px !important;
