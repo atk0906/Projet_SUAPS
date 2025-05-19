@@ -35,7 +35,7 @@ def setting_web_attribute(page_title):
         f"""
             <style>
                 html {{
-                    zoom: 60%;}}
+                    zoom: 70%;}}
                 .block-container {{
                     padding-top: 1rem;
                     margin-top: 0rem; 
@@ -814,7 +814,6 @@ with tab4:
                 paper_bgcolor='rgba(0,0,0,0)',
                 font=dict(color=COLORS["text"]),
                 margin=dict(l=40, r=40, t=50, b=80),
-                xaxis=dict(tickangle=-45),
                 height=600
             )
 
@@ -827,7 +826,6 @@ with tab4:
                 <h3 style='color: {COLORS["primary"]}; margin-top: 0;'>Top Départements</h3>
             """, unsafe_allow_html=True)
             
-           # Calculer le nombre total d'étudiants par département
             dept_counts = df["Département"].value_counts().head(8)
             dept_df = pd.DataFrame({
                 "Département": dept_counts.index,
