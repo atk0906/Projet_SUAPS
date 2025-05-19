@@ -229,7 +229,7 @@ with tab1:
                 paper_bgcolor='rgba(0,0,0,0)',
                 font=dict(color=COLORS["text"]),
                 margin=dict(l=0, r=0, t=10, b=40),  
-                width=None,  
+                width=1000,  
                 height=400   
             )
             st.plotly_chart(fig_groupement, use_container_width=True)
