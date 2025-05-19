@@ -451,7 +451,7 @@ with tab3:
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
             font=dict(color=COLORS["text"]),
-            margin=dict(l=40, r=40, t=10, b=40)
+            margin_autoexpand=True
         )
         st.plotly_chart(fig, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
