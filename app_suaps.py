@@ -228,7 +228,7 @@ with tab1:
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)',
                 font=dict(color=COLORS["text"]),
-                margin=dict(l=20, r=20, t=10, b=40),  
+                margin=dict(l=0, r=0, t=10, b=40),  
                 width=None,  
                 height=400   
             )
