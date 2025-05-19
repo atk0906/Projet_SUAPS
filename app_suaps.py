@@ -40,8 +40,19 @@ def setting_web_attribute(page_title):
                     padding-top: 1rem;
                     margin-top: 0rem; 
                     padding-bottom: 1rem;
-                    padding-left: 3rem;
-                    padding-right: 3rem;
+                    padding-left: 1rem;  
+                    padding-right: 1rem; 
+                    max-width: 100% !important;
+                }}
+                .js-plotly-plot, .plot-container {{
+                    width: 100% !important;
+                    max-width: 100% !important;
+                }}
+                .main .block-container {{
+                    max-width: 100% !important;
+                    width: 100% !important;
+                    padding-left: 1rem !important;
+                    padding-right: 1rem !important;
                 }}
                 .metric-container {{
                     font-size: 70px !important;
