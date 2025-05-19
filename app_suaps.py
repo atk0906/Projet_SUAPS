@@ -13,7 +13,7 @@ COLORS = {
     "accent": "#e28743",        
     "neutral": "#78909C",       
     "background": "#F5F7FA",    
-    "text": "#37474F",          
+    "text": "#090D0F",          
 }
 
 # Color sequences cho các biểu đồ
