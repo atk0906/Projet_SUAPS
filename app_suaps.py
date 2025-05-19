@@ -187,9 +187,9 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # Tab structure with improved styling
-tab1, tab2, tab3, tab5, tab4 = st.tabs(["📊 Vue d'ensemble", "📈 Statistiques Principales", 
-                                       "🔍 Analyse Avancée", "🏀 Présence BASKET - LORIENT", 
-                                       "👥 Analyse des Étudiants"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📊 Vue d'ensemble", "📈 Statistiques Principales", 
+                                       "🔍 Analyse Avancée","👥 Analyse des Étudiants" ,"🏀 Présence BASKET - LORIENT", 
+                                       ])
 
 with tab1:
     col1, col2, col3 = st.columns([2, 1, 1])
@@ -536,6 +536,124 @@ with tab3:
         st.plotly_chart(fig, use_container_width=True)
         st.markdown("</div>", unsafe_allow_html=True)
         
+with tab4:
+    st.markdown(f"""
+    <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;'>
+        <h2 style='color: {COLORS["primary"]}; margin-top: 0;'>Analyse des Étudiants - Département vs Activité</h2>
+        <p style='color: {COLORS["text"]};'>Analyse croisée des inscriptions par département et activité.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Vérifier si les colonnes Département et Activité existent
+    if "Département" in df.columns and "Activité" in df.columns:
+        col1, col2 = st.columns([1, 2])
+        
+        st.markdown(f"""
+        <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;'>
+            <h3 style='color: {COLORS["primary"]}; margin-top: 0;'>Répartition des Étudiants</h3>
+        """, unsafe_allow_html=True)
+        
+        # Calculer les effectifs par Département et Activité
+        department_activity = df.groupby(["Département", "Activité"]).size().reset_index(name="Nombre d'étudiants")
+
+        # Créer le scatter plot avec taille ajustée
+        fig_scatter = px.scatter(
+            department_activity,
+            x="Département",
+            y="Activité",
+            size="Nombre d'étudiants",
+            color="Département",
+            hover_data=["Nombre d'étudiants"],
+            color_discrete_sequence=COLOR_SEQUENCE,
+            title="Répartition des Étudiants par Département et Activité"
+        )
+        
+        fig_scatter.update_layout(
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font=dict(color=COLORS["text"]),
+            margin=dict(l=40, r=40, t=50, b=80),
+            height=600
+        )
+
+        st.plotly_chart(fig_scatter, use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+        
+        
+
+        with col1:
+            st.markdown(f"""
+            <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;'>
+                <h3 style='color: {COLORS["primary"]}; margin-top: 0;'>Top Départements</h3>
+            """, unsafe_allow_html=True)
+            
+            dept_counts = df["Département"].value_counts().head(8)
+            dept_df = pd.DataFrame({
+                "Département": dept_counts.index,
+                "Nombre d'inscriptions": dept_counts.values
+            })
+            dept_df = dept_df.sort_values(by="Nombre d'inscriptions", ascending=True)
+
+            fig_dept = px.bar(
+                dept_df,
+                x="Nombre d'inscriptions",
+                y="Département",
+                orientation='h',
+                color="Nombre d'inscriptions",
+                color_continuous_scale=COLOR_SCALE,
+                text_auto=True
+            )
+            
+            fig_dept.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(color=COLORS["text"]),
+                margin=dict(l=20, r=40, t=10, b=20),
+                xaxis_title="Nombre d'étudiants",
+                yaxis_title="Département",
+                showlegend=False
+            )
+            
+            st.plotly_chart(fig_dept, use_container_width=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+        
+        with col2:
+            # Limiter aux top départements et activités pour une meilleure lisibilité
+            st.markdown(f"""
+            <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);'>
+                <h3 style='color: {COLORS["primary"]}; margin-top: 0;'>Marimekko Plot - Top Départements & Activités</h3>
+            """, unsafe_allow_html=True)
+            
+            top_departments = department_activity.groupby("Département")["Nombre d'étudiants"].sum().nlargest(10).index
+            top_activities = department_activity.groupby("Activité")["Nombre d'étudiants"].sum().nlargest(10).index
+
+            department_activity_filtered = department_activity[department_activity["Département"].isin(top_departments)]
+            department_activity_filtered = department_activity_filtered[department_activity_filtered["Activité"].isin(top_activities)]
+
+            # Créer le graphique Treemap (Marimekko)
+            fig_mosaic = px.treemap(
+                department_activity_filtered, 
+                path=["Département", "Activité"], 
+                values="Nombre d'étudiants",
+                color="Nombre d'étudiants",
+                color_continuous_scale="Blues",
+                title="Distribution des Inscriptions - Top Départements et Activités"
+            )
+
+            fig_mosaic.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(color=COLORS["text"]),
+                margin=dict(l=20, r=20, t=50, b=20),
+                height=500
+            )
+            
+            st.plotly_chart(fig_mosaic, use_container_width=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+
+    else:
+        st.error("Les colonnes 'Département' et 'Activité' ne sont pas disponibles dans les données.")
+
         
 with tab5:
     st.markdown(f"""
@@ -776,122 +894,6 @@ with tab5:
         st.markdown("</div>", unsafe_allow_html=True)
         
         
-with tab4:
-    st.markdown(f"""
-    <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;'>
-        <h2 style='color: {COLORS["primary"]}; margin-top: 0;'>Analyse des Étudiants - Département vs Activité</h2>
-        <p style='color: {COLORS["text"]};'>Analyse croisée des inscriptions par département et activité.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # Vérifier si les colonnes Département et Activité existent
-    if "Département" in df.columns and "Activité" in df.columns:
-        col1, col2 = st.columns([2, 1])
-        
-        with col1:
-            st.markdown(f"""
-            <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;'>
-                <h3 style='color: {COLORS["primary"]}; margin-top: 0;'>Répartition des Étudiants</h3>
-            """, unsafe_allow_html=True)
-            
-            # Calculer les effectifs par Département et Activité
-            department_activity = df.groupby(["Département", "Activité"]).size().reset_index(name="Nombre d'étudiants")
-
-            # Créer le scatter plot avec taille ajustée
-            fig_scatter = px.scatter(
-                department_activity,
-                x="Département",
-                y="Activité",
-                size="Nombre d'étudiants",
-                color="Département",
-                hover_data=["Nombre d'étudiants"],
-                color_discrete_sequence=COLOR_SEQUENCE,
-                title="Répartition des Étudiants par Département et Activité"
-            )
-            
-            fig_scatter.update_layout(
-                plot_bgcolor='rgba(0,0,0,0)',
-                paper_bgcolor='rgba(0,0,0,0)',
-                font=dict(color=COLORS["text"]),
-                margin=dict(l=40, r=40, t=50, b=80),
-                height=600
-            )
-
-            st.plotly_chart(fig_scatter, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
-        
-        with col2:
-            st.markdown(f"""
-            <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;'>
-                <h3 style='color: {COLORS["primary"]}; margin-top: 0;'>Top Départements</h3>
-            """, unsafe_allow_html=True)
-            
-            dept_counts = df["Département"].value_counts().head(8)
-            dept_df = pd.DataFrame({
-                "Département": dept_counts.index,
-                "Nombre d'inscriptions": dept_counts.values
-            })
-            dept_df = dept_df.sort_values(by="Nombre d'inscriptions", ascending=True)
-
-            fig_dept = px.bar(
-                dept_df,
-                x="Nombre d'inscriptions",
-                y="Département",
-                orientation='h',
-                color="Nombre d'inscriptions",
-                color_continuous_scale=COLOR_SCALE,
-                text_auto=True
-            )
-            
-            fig_dept.update_layout(
-                plot_bgcolor='rgba(0,0,0,0)',
-                paper_bgcolor='rgba(0,0,0,0)',
-                font=dict(color=COLORS["text"]),
-                margin=dict(l=20, r=40, t=10, b=20),
-                xaxis_title="Nombre d'étudiants",
-                yaxis_title="Département",
-                showlegend=False
-            )
-            
-            st.plotly_chart(fig_dept, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
-        
-        # Limiter aux top départements et activités pour une meilleure lisibilité
-        st.markdown(f"""
-        <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);'>
-            <h3 style='color: {COLORS["primary"]}; margin-top: 0;'>Marimekko Plot - Top Départements & Activités</h3>
-        """, unsafe_allow_html=True)
-        
-        top_departments = department_activity.groupby("Département")["Nombre d'étudiants"].sum().nlargest(10).index
-        top_activities = department_activity.groupby("Activité")["Nombre d'étudiants"].sum().nlargest(10).index
-
-        department_activity_filtered = department_activity[department_activity["Département"].isin(top_departments)]
-        department_activity_filtered = department_activity_filtered[department_activity_filtered["Activité"].isin(top_activities)]
-
-        # Créer le graphique Treemap (Marimekko)
-        fig_mosaic = px.treemap(
-            department_activity_filtered, 
-            path=["Département", "Activité"], 
-            values="Nombre d'étudiants",
-            color="Nombre d'étudiants",
-            color_continuous_scale="Blues",
-            title="Distribution des Inscriptions - Top Départements et Activités"
-        )
-
-        fig_mosaic.update_layout(
-            plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
-            font=dict(color=COLORS["text"]),
-            margin=dict(l=20, r=20, t=50, b=20),
-            height=500
-        )
-        
-        st.plotly_chart(fig_mosaic, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    else:
-        st.error("Les colonnes 'Département' et 'Activité' ne sont pas disponibles dans les données.")
-
 # Footer avec informations de copyright et version
 st.markdown(f"""
 <div style='background-color: {COLORS["primary"]}; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: center;'>
