@@ -35,7 +35,7 @@ def setting_web_attribute(page_title):
         f"""
             <style>
                 html {{
-                    zoom: 100%;}}
+                    zoom: 80%;}}
                 .block-container {{
                     padding-top: 1rem;
                     margin-top: 0rem; 
