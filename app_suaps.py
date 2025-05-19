@@ -238,7 +238,7 @@ with tab1:
     with col2:
         st.markdown("""
         <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;'>
-            <h3 style='color: #1E88E5; margin-top: 0;'>Nombre d'Activités Sportives</h3>
+            <h3 style='color: #1E88E5; margin-top: 0;'>Nombre d'Activités </h3>
         """, unsafe_allow_html=True)
         
         st.markdown(f"<div class='metric-container'>{df['Activité'].nunique()}</div>", unsafe_allow_html=True)
@@ -246,7 +246,7 @@ with tab1:
         
         st.markdown("""
         <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);'>
-            <h3 style='color: #1E88E5; margin-top: 0;'>Répartition par Type d'inscription</h3>
+            <h3 style='color: #1E88E5; margin-top: 0;'>Type d'inscription</h3>
         """, unsafe_allow_html=True)
         
         if "Type d’inscription" in df.columns:
@@ -272,7 +272,7 @@ with tab1:
     with col3:
         st.markdown("""
         <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px;'>
-            <h3 style='color: #1E88E5; margin-top: 0;'>Nombre Total d'Enseignants</h3>
+            <h3 style='color: #1E88E5; margin-top: 0;'>Nombre d'Enseignants</h3>
         """, unsafe_allow_html=True)
         
         st.markdown(f"<div class='metric-container'>{df['Enseignant'].nunique()}</div>", unsafe_allow_html=True)
@@ -280,7 +280,7 @@ with tab1:
         
         st.markdown("""
         <div style='background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);'>
-            <h3 style='color: #1E88E5; margin-top: 0;'>Répartition par Type</h3>
+            <h3 style='color: #1E88E5; margin-top: 0;'>Type de participants</h3>
         """, unsafe_allow_html=True)
         
         if "Type" in df.columns:
